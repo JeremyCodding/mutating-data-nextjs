@@ -43,10 +43,12 @@ export async function createPost(prevFormData, formData) {
     userId: 1,
   });
 
+  revalidatePath("/", "layout");
   redirect("/feed");
 }
 
 export async function togglePostLiksStatus(postId) {
   await updatePostLikeStatus(postId, 2);
+
   revalidatePath("/", "layout");
 }
