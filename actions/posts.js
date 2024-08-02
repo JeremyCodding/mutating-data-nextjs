@@ -1,7 +1,8 @@
 "use server";
 
 import { uploadImage } from "@/lib/cloudinary";
-import { storePost } from "@/lib/posts";
+import { storePost, updatePostLikeStatus } from "@/lib/posts";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function createPost(prevFormData, formData) {
@@ -43,4 +44,9 @@ export async function createPost(prevFormData, formData) {
   });
 
   redirect("/feed");
+}
+
+export async function togglePostLiksStatus(postId) {
+  await updatePostLikeStatus(postId, 2);
+  revalidatePath("/", "layout");
 }
